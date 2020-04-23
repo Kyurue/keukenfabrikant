@@ -1,0 +1,12 @@
+.btn-success {
+    display: flex;
+    margin-left: 35%;
+}
+
+.geslacht {
+   text-align: center;
+}
+
+body {
+    padding-bottom: 40px;
+}
