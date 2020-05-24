@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'PagesController@index');
+route::resource('posts', 'PostsController');
+Route::get('create', 'PostsController@create');
+Auth::routes();
+Route::get('/home', 'PagesController@index')->name('home');
+route::resource('admin/posts', 'HomeController');
+route::resource('admin/users', 'userController');
+route::resource('profile', 'profileController');
+Route::get('/contact', function() {
+    return view('pages.contact');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth']], function(){
+    Route::post('favorite/{post}/add', 'FavoriteController@add')->name('post.favorite');
+});
