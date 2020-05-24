@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class profileController extends Controller
 {
@@ -14,7 +15,9 @@ class profileController extends Controller
     public function index()
     {
         return view('pages.profile');
+        
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +48,8 @@ class profileController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('pages.profile')->with('user', $user);
     }
 
     /**
@@ -56,7 +60,12 @@ class profileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+        return view('pages.editProfile')->with('user', $user);
     }
 
     /**
@@ -68,7 +77,21 @@ class profileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required' ,
+            'email' => 'required'
+        ]);    
+        
+        //update
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+        return redirect('/')->with('success', 'Account Bewerkt');
     }
 
     /**
@@ -79,6 +102,17 @@ class profileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+
+        // if($post->cover_image != 'default.jpg') {
+        // Storage::delete('public/cover_images/' . $post->cover_image);
+        // }
+        $user->delete();
+        return redirect('/')->with('success', 'Account Verwijderd');
     }
 }

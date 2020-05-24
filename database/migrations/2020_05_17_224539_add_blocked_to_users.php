@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatPostUserTable extends Migration
+class AddBlockedToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatPostUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('blocked')->default('0');
         });
     }
 
@@ -26,6 +25,8 @@ class CreatPostUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_user');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('blocked');
+        });
     }
 }

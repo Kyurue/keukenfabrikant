@@ -7,6 +7,7 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">titel</th>
+                <th scope="col">gebruiker</th>
                 <th scope="col">bewerken</th>
                 <th scope="col">verwijder</th>
             </tr>
@@ -16,6 +17,7 @@
             <tr>
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
+                <td>{{$post->user_id}}</td>
                 <td><button class="btn btn-success"><a href="/posts/{{$post->id}}/edit">bewerken</a></button></td>
                 <td>
                     {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right'])!!}

@@ -7,47 +7,20 @@
    </h3>
 
    <div class="col-md-5">
+      <label>Voornaam: </label> 
+      <p>{{ $user->name }}</p>
+   </div>
+   
+   <div class="col-md-5">
+      <label>E-mail: </label> 
+      <p>{{ $user->email }}</p>
+   </div>
 
-   <label>Voornaam</label>
-      <div class="input-group mb-3">
-         <div class="input-group-prepend">
-            <div class="input-group-text">
-               <i class="fas fa-edit"></i>
-            </div>
-         </div>
-         <input type="text" class="form-control" placeholder="{{ Auth::user()->name }}" aria-label="Text input with checkbox">
-      </div>
-
-      <label>Achternaam</label>
-      <div class="input-group mb-3">
-         <div class="input-group-prepend">
-            <div class="input-group-text">
-               <i class="fas fa-edit"></i>
-            </div>
-         </div>
-         <input type="text" class="form-control" placeholder="Achternaam" aria-label="Text input with checkbox">
-      </div>
-
-      <label>E-mail</label>
-      <div class="input-group mb-3">
-         <div class="input-group-prepend">
-            <div class="input-group-text">
-               <i class="fas fa-edit"></i>
-            </div>
-         </div>
-         <input type="text" class="form-control" placeholder="{{ Auth::user()->email }}" aria-label="Text input with checkbox">
-      </div>
-
-      <div class="geslacht">
-         <label>Geslacht</label><br>
-         <label for="man">Man</label>
-         <input type="radio" name="geslacht" id="man" value="man" checked>
-         <label for="vrouw">vrouw</label>
-         <input type="radio" name="geslacht" id="vrouw" value="vrouw">
-         <div class="row">
-            <button type="button" class="btn btn-success">Gegevens opslaan</button>
-         </div>
-      </div>
+      @if(!Auth::guest())
+         @if(Auth::user()->id == $user->id)
+            <a href="/profile/{{$user->id}}/edit" class="btn btn-success">gegevens bewerken</a>
+         @endif
+      @endif
    </div>
    <hr>
 

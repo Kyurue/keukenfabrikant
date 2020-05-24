@@ -7,11 +7,11 @@
         {{Form::file('cover_image')}}
     </div>
         <div class="form-group">
-            {{Form::label('title', 'Title')}}
+            {{Form::label('title', 'Titel')}}
             {{Form::text('title', $post->title, ['placeholder' => 'Title', 'class' =>'form-control'])}}
         </div>
         <div class="form-group">
-            {{Form::label('body', 'Body')}}
+            {{Form::label('body', 'Bericht')}}
             {{Form::textarea('body', $post->body, ['id' => 'article-ckeditor', 'placeholder' => 'Body', 'class' =>'form-control'])}}
         </div>
         {{Form::hidden('_method','PUT')}}

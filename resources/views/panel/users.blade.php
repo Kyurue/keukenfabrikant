@@ -7,9 +7,11 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">naam</th>
-                <th scope="col">email</th>
+                <th scope="col">e-mail</th>
+                <th scope="col">functie</th>
                 <th scope="col">bewerken</th>
                 <th scope="col">verwijder</th>
+                <th scope="col">status</th>
             </tr>
             </thead>
             <tbody>
@@ -18,6 +20,7 @@
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
+                <td>{{$user->role}}</td>
                 <td><button class="btn btn-success"><a href='/admin/users/{{$user->id}}/edit'>bewerken</a></button></td>
                 <td>
                     {!!Form::open(['action' => ['userController@destroy', $user->id], 'method' => 'POST'])!!}
@@ -25,6 +28,8 @@
                         {{Form::submit('verwijderen', ['class' => 'btn btn-danger'])}}
                     {!!Form::close()!!}
                 </td>
+                <td><?php 
+                    if($user->blocked == 1) {?> geblokkeerd <?php } else { ?> geen <?php } ?></td>
             </tr>
             @endforeach
     </table>

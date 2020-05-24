@@ -28,6 +28,30 @@
                 <a href="/contact" class="nav-link">contact</a>
                 </li>
             @else
+            @if(Auth::user()->blocked == '1')
+                <style>
+                    .dropdown {
+                        right: 0;
+                        left: auto;
+                    }
+                </style>
+                <div class="user-profile">
+                    <div class="dropdown">      
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-user"></i>
+                            {{ Auth::user()->name }}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">  
+                            @auth
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                    <button class="dropdown-item" href="{{ route('logout') }}">Logout</button>
+                                    @csrf
+                                </form>
+                            @endauth
+                        </div>
+                    </div>
+                </div>
+            @elseif (Auth::user()->blocked == '0')
                 <style>
                     .dropdown {
                         right: 0;
@@ -41,24 +65,25 @@
                             {{ Auth::user()->name }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">  
-                                <a class="dropdown-item" type="button" href="/profile">ProfielPagina</a>                  
+                                <a class="dropdown-item" type="button" href="/profile/{{Auth::user()->id}}">ProfielPagina</a>                  
                             <a class="dropdown-item" type="button" href="/posts/create">Maak Post</a>
                             @if(Auth::user()->role == 'admin')
-                          <a class="dropdown-item" type="button" href="/admin/users">Admin paneel</a>
-                          @endif
-                          @auth
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                            <button class="dropdown-item" href="{{ route('logout') }}">Logout</button>
-                            @csrf
-                        </form>
-                        @endauth
+                                <a class="dropdown-item" type="button" href="/admin/users">Admin paneel</a>
+                            @endif
+                            @auth
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                    <button class="dropdown-item" href="{{ route('logout') }}">Logout</button>
+                                    @csrf
+                                </form>
+                            @endauth
+                        </div>
+                        &nbsp; 
                     </div>
-                    &nbsp; 
-                  </div>
                 </div>
                 <li class="nav-item">
                     <a href="/contact" class="nav-link">contact</a>
-                    </li>
+                </li>
+            @endif
         @endguest  
     </ul>
 </div>

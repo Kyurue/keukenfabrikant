@@ -22,16 +22,57 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <title>{{ config('app.name') }}</title>
-</head>
-<body>
-    <div id="app">
-        @include('partials.navbar')
-    </div>
-    <br>
-    <div class="container">
-        @include('inc.messages')
-        @yield('content')
-    </div>
+    </head>
+    <body>
+    <!-- Authentication Links -->
+    @guest
+        <div id="app">
+            @include('partials.navbar')
+        </div>
+        <br>
+        <div class="container">
+            @include('inc.messages')
+            @yield('content')
+        </div>
+    @endguest
+    @auth
+    @if(Auth::user()->blocked == '1')
+         <div id="app">
+            @include('partials.navbar')
+        </div>
+        <div class="container">
+            <br>
+            <h3 class="pb-3 mb-4 border-bottom">
+                Dit account is geblokkeerd
+             </h3>
+             <p>Uw account is helaas tijdelijk/permanent geblokkeerd vanwege 1 van de volgende redenen:</p>
+             <p>- Er zijn verdachte activiteiten op uw account.</p>
+             <p>- Uw account is mogelijk als bot geindentificeerd als bot.</p>
+             <p>- U heeft onze regels verbroken.</p><br>
+             <p>Om meer te weten te komen achter de reden van uw blokkade stuur een mail via ons contact formulier met de volgende gegevens</p>
+             <p>- Uw Gebruikersnaam</p>
+             <p>- Uw E-mail</p><br>
+             <p>- Waarom u mogelijk denkt geblokkeerd te zijn</p><br>
+             <p>na het verzenden van deze mail zult u te horen krijgen wat de reden is en of deze blokkade te verheffen is.</p>
+             <br>
+             <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <button class="btn btn-success"><a style="text-decoration: none; color: black;" href="{{ route('logout') }}">log uit</a></button>
+                @csrf
+            </form>
+        </div>
+    @else 
+        <div id="app">
+            @include('partials.navbar')
+        </div>
+        <br>
+        <div class="container">
+            @include('inc.messages')
+            @yield('content')
+        </div>
+    @endif
+    @endauth
+    
+    
     
 </body>
 </html>

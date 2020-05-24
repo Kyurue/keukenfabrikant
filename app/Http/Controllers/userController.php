@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests;
-use App\Post;
 use App\User;
 
 
@@ -64,7 +63,12 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+        return view('panel.editUser')->with('user', $user);
     }
 
     /**
@@ -76,7 +80,27 @@ class userController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required' ,
+            'email' => 'required'
+        ]);    
+        
+        //update
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        if($request->input('role') != 'empty'){
+            $user->role = $request->input('role');
+        }
+        if($request->input('blocked') != 'empty'){
+            $user->blocked = $request->input('blocked');
+        }
+        $user->save();
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+        return redirect('/admin/users')->with('success', 'User Updated');
     }
 
     /**
@@ -87,6 +111,17 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if(auth()->user()->role == 'admin') {} 
+        else if(auth()->user()->id !== $user->id) {
+            return redirect('/')->with('error', 'Unauthorized page');
+        } 
+
+        // if($post->cover_image != 'default.jpg') {
+        // Storage::delete('public/cover_images/' . $post->cover_image);
+        // }
+        $user->delete();
+        return redirect('/admin/users')->with('success', 'User Deleted');
     }
 }
