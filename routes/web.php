@@ -19,6 +19,7 @@ use PHPMailer\PHPMailer\SMTP;
 Route::get('/', 'PagesController@index');
 route::resource('posts', 'PostsController');
 Auth::routes();
+Auth::routes(['verify' => true]);
 Route::get('/home', 'PagesController@index')->name('home');
 route::resource('admin/posts', 'HomeController');
 route::resource('admin/users', 'userController');
@@ -34,10 +35,10 @@ Route::match(['GET', 'POST'], '/contact', function() {
         try {
             //Server settings
             $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'smtp.office365.com';                    // Set the SMTP server to send through
+            $mail->Host       = 'smtp.office365.com';                   // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'keukenfabrikant@outlook.com';                     // SMTP username
-            $mail->Password   = 'V~p+BS$$ED6=2iT';                               // SMTP password
+            $mail->Username   = 'keukenfabrikant@outlook.com';          // SMTP username
+            $mail->Password   = 'V~p+BS$$ED6=2iT';                      // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 587;          
             $mail->SMTPOptions = array(
@@ -51,7 +52,7 @@ Route::match(['GET', 'POST'], '/contact', function() {
         
             //Recipients
             $mail->setFrom('keukenfabrikant@outlook.com');
-            $mail->addAddress('migl3228@gmail.com', 'Micha Glas');     // Add a recipient
+            $mail->addAddress('hesselpa@live.nl', 'Hessel Palland');     // Add a recipient
             $mail->addReplyTo($_POST['email']);
             //$mail->addCC('cc@example.com');
             //$mail->addBCC('bcc@example.com');
